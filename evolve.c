@@ -9,36 +9,49 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
     int MAX_GEN = mg;
     int MAX_CHILD = mc;
     int gen_left = mg;
+    int SIBLINGS_PARAM = 5;
     individual** generations[MAX_GEN];
-    
+
+    generation gen_list[MAX_GEN];
+     
     int childcount = 0;
+    int current_gen = 999;
+    gen_list[0].generation_id = 0;
+    gen_list[0].member_count = 2;
+
 
     while (gen_left--)
     {
-        //printf("GEN_LEFT = %i\n");
+        current_gen = MAX_GEN - gen_left - 1;
         if (gen_left+1 == MAX_GEN)
         {
             childcount = get_random(MAX_CHILD);
-            generations[MAX_GEN-gen_left] = malloc(childcount*sizeof(individual));
+            generations[current_gen] = malloc(childcount*sizeof(individual)); //FREE!
             printf("CHILDCOUNT: %i | GEN: gen_left: %i\n", childcount, gen_left);
 
             while (childcount--)
             {   
-                generations[MAX_GEN - gen_left][childcount] = evolve(origin1, origin2);
-                printf("Bloodtype: %c%c\n", generations[MAX_GEN - gen_left][childcount]->bloodType[0],generations[MAX_GEN - gen_left][childcount]->bloodType[1]);
+                generations[current_gen][childcount] = evolve(origin1, origin2);
+                printf("Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]);
             }
-
+        }
+        else if (gen_left + 1 < SIBLINGS_PARAM == 5)
+        {
+            int couple_count = get_random((int) gen_list[current_gen].member_count/2);
+            //Make cross between random individuals
+            
         }
         else
         {
-            //Choose randomly couples to cross.
+            //Choose randomly not siblings who belong to the same generation.
         }
     }
+
+    //WORK ON FREEING MEMORY!!!!!!!!!!!
 }
 
 void crossover(individual* p)
 {   
-    //p->possibilities[i][l] = p->parents[k]->bloodType[l];
     for (int a = 0; a < 2; a++) // parent 1
     {
         for (int b = 0; b < 2; b++) // parent 2

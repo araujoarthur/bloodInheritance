@@ -27,4 +27,6 @@ void main()
     }
     printf("\nChild Bloodtype: %c%c\n", child->bloodType[0],child->bloodType[1]);
     */
+   free(o1);
+   free(o2);
 }

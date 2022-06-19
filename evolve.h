@@ -2,6 +2,7 @@
 #define EVOLVEH
 
 struct individual;
+struct generation;
 
 typedef struct individual
 {
@@ -11,6 +12,12 @@ typedef struct individual
     int generation;
     struct individual* parents[2];
 }individual;
+
+typedef struct generation
+{
+    int generation_id;
+    int member_count;
+}generation;
 
 void initSim();
 void crossover(individual* p);
