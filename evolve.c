@@ -21,7 +21,8 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
 
 
     while (gen_left--)
-    {
+    {   
+        printf("GEN LEFT: %i\n", gen_left);
         current_gen = MAX_GEN - gen_left - 1;
         if (gen_left+1 == MAX_GEN)
         {
@@ -35,10 +36,33 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
                 printf("Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]);
             }
         }
-        else if (gen_left + 1 < SIBLINGS_PARAM == 5)
+        else if (current_gen < SIBLINGS_PARAM)
         {
+            //INFINITE LOOP;
             int couple_count = get_random((int) gen_list[current_gen].member_count/2);
-            //Make cross between random individuals
+            while (--couple_count)
+            {
+                int parent1_id = get_random(gen_list[current_gen - 1].member_count);
+                int parent2_id = get_random(gen_list[current_gen - 1].member_count);
+
+                while (parent2_id == parent1_id)
+                {
+                    parent2_id = get_random(gen_list[current_gen - 1].member_count);
+                }
+
+                individual* parent1 = generations[current_gen - 1][parent1_id];
+                individual* parent2 = generations[current_gen - 1][parent2_id];
+
+                childcount = get_random(MAX_CHILD);
+
+                gen_list[current_gen].member_count += childcount;
+
+                while(childcount--)
+                {
+                    generations[current_gen][childcount] = evolve(parent1, parent2);
+                    printf("Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]); 
+                }                
+            }
             
         }
         else
