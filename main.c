@@ -15,7 +15,7 @@ void main()
     o2->bloodType[1] = 'i';
     o1->bloodType[0] = 'B';
     o1->bloodType[1] = 'i';
-    initSim(100,20, o1, o2);
+    initSim(6,20, o1, o2);
 
    /* individual* child = evolve(o1,o2);
     printf("Child Parent 1 Blood Type: %c%c\n", child->parents[0]->bloodType[0],child->parents[0]->bloodType[1]);

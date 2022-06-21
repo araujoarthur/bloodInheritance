@@ -24,6 +24,11 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
     {   
         printf("GEN LEFT: %i\n", gen_left);
         current_gen = MAX_GEN - gen_left - 1;
+        if(current_gen != 0)
+        {
+            gen_list[current_gen].member_count = 0;
+            gen_list[current_gen].generation_id = current_gen;
+        }
         if (gen_left+1 == MAX_GEN)
         {
             childcount = get_random(MAX_CHILD);
@@ -38,16 +43,20 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
         }
         else if (current_gen < SIBLINGS_PARAM)
         {
-            //INFINITE LOOP;
-            int couple_count = get_random((int) gen_list[current_gen].member_count/2);
-            while (--couple_count)
+            //Unexpected Return;
+            printf("Entered SAllowed\n");
+            int couple_count = get_random((int) gen_list[current_gen].member_count/2) + 1;
+            printf("CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
+            while (couple_count--)
             {
+                printf("Entered First Loop SAllowed\n");
                 int parent1_id = get_random(gen_list[current_gen - 1].member_count);
                 int parent2_id = get_random(gen_list[current_gen - 1].member_count);
 
                 while (parent2_id == parent1_id)
                 {
                     parent2_id = get_random(gen_list[current_gen - 1].member_count);
+                    printf("Entered Second Loop SAllowed\n");
                 }
 
                 individual* parent1 = generations[current_gen - 1][parent1_id];
@@ -56,14 +65,15 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
                 childcount = get_random(MAX_CHILD);
 
                 gen_list[current_gen].member_count += childcount;
-
                 while(childcount--)
                 {
+                    printf("Entered Evolve Loop SAllowed\n");
                     generations[current_gen][childcount] = evolve(parent1, parent2);
-                    printf("Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]); 
+                    printf("Evolve: Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]); 
                 }                
             }
-            
+            printf("CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
+
         }
         else
         {
