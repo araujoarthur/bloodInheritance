@@ -15,40 +15,40 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
     generation gen_list[MAX_GEN];
      
     int childcount = 0;
-    int current_gen = 999;
+    int current_gen = 1;
     gen_list[0].generation_id = 0;
     gen_list[0].member_count = 2;
 
 
-    while (gen_left--)
+    while (current_gen != MAX_GEN)
     {   
-        printf("GEN LEFT: %i\n", gen_left);
-        current_gen = MAX_GEN - gen_left - 1;
-        if(current_gen != 0)
+        if (current_gen != 0)
         {
-            gen_list[current_gen].member_count = 0;
             gen_list[current_gen].generation_id = current_gen;
-        }
-        if (gen_left+1 == MAX_GEN)
-        {
-            childcount = get_random(MAX_CHILD);
-            generations[current_gen] = malloc(childcount*sizeof(individual)); //FREE!
-            //printf("CHILDCOUNT: %i | GEN: gen_left: %i\n", childcount, gen_left);
-
-            while (childcount--)
-            {   
-                generations[current_gen][childcount] = evolve(origin1, origin2);
-                //printf("Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]);
+            gen_list[current_gen].member_count = 0;
+            if(gen_list[current_gen - 1].member_count < 1)
+            {
+                printf("Population didn't evolve");
+                return;
             }
         }
-        else if (current_gen < SIBLINGS_PARAM)
+
+        if (current_gen < SIBLINGS_PARAM)
         {
-            
+            int couple_count = get_random((int) (gen_list[current_gen-1].member_count / 2) + 1);
+            printf("couple_count: %i\n",couple_count);
+            int childcount_list[couple_count];
+            int counter = 0;
+            while(counter != couple_count)
+            {
+                childcount_list[counter] = get_random(MAX_CHILD);
+                gen_list[current_gen].member_count += childcount_list[counter];
+                printf("CHILDS %i\n", childcount_list[counter]);
+                counter++;
+            }
         }
-        else
-        {
-            //Choose randomly not siblings who belong to the same generation.
-        }
+        
+        current_gen++;
     }
 
     //WORK ON FREEING MEMORY!!!!!!!!!!!
