@@ -46,7 +46,7 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
             //Unexpected Return;
             printf("Entered SAllowed\n");
             int couple_count = get_random((int) gen_list[current_gen].member_count/2) + 1;
-            printf("CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
+            printf("[F] CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
             while (couple_count--)
             {
                 printf("Entered First Loop SAllowed\n");
@@ -61,18 +61,22 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
 
                 individual* parent1 = generations[current_gen - 1][parent1_id];
                 individual* parent2 = generations[current_gen - 1][parent2_id];
+                
+                printf("PARENT1 BLOODTYPE: %c%c\n",parent1->bloodType[0],parent1->bloodType[1]);
+                printf("PARENT2 BLOODTYPE: %c%c\n",parent1->bloodType[0],parent1->bloodType[1]);
 
                 childcount = get_random(MAX_CHILD);
+                printf("CHILDCOUNT: %i\n", childcount);
 
                 gen_list[current_gen].member_count += childcount;
                 while(childcount--)
                 {
-                    printf("Entered Evolve Loop SAllowed\n");
-                    generations[current_gen][childcount] = evolve(parent1, parent2);
+                    printf("Entered Evolve Loop SAllowed | Childcount: %i\n", childcount);
+                    generations[current_gen][childcount] = evolve(parent1, parent2); //Probably where the problem is;
                     printf("Evolve: Bloodtype: %c%c\n", generations[current_gen][childcount]->bloodType[0],generations[current_gen][childcount]->bloodType[1]); 
                 }                
             }
-            printf("CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
+            printf("[L] CURRENT GEN: %i | MEMBERS ON GENERATION: %i| CHILDCOUNT: %i | COUPLE COUNT: %i\n", current_gen, gen_list[current_gen].member_count, childcount, couple_count);
 
         }
         else
