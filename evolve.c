@@ -46,6 +46,9 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
                 printf("CHILDS %i\n", childcount_list[counter]);
                 counter++;
             }
+            //Populate members for n couples
+            
+
         }
         
         current_gen++;
