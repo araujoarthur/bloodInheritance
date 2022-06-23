@@ -24,8 +24,7 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
     generations[0][1] = origin2;
 
     while (current_gen != MAX_GEN)
-    {   
-
+    {
         if (current_gen != 0)
         {
             gen_list[current_gen].generation_id = current_gen;
@@ -39,11 +38,13 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
 
         if (current_gen < SIBLINGS_PARAM)
         {
+            int member_index = 0;
             printf("GEN: %i \n", current_gen);
             int couple_count = get_random((int) (gen_list[current_gen-1].member_count / 2) + 1);
             printf("couple_count: %i\n",couple_count);
             int childcount_list[couple_count];
             int counter = 0;
+
             while(counter != couple_count)
             {
                 childcount_list[counter] = get_random(MAX_CHILD);
@@ -51,8 +52,10 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
                 printf("CHILDS %i\n", childcount_list[counter]);
                 counter++;
             }
+
             counter = 0;
             generations[current_gen] = malloc(gen_list[current_gen].member_count * sizeof(individual**)); //FREE!!!!!!!!!!!!!!!!!!
+
             while(counter != couple_count)
             {
                 //[OK] Defines a couple
@@ -71,10 +74,9 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
                 int subcounter = 0;
                 while (subcounter != childcount_list[counter])
                 {
-                    //Populate with childs
-
+                    generations[current_gen][member_index] = evolve(parent1, parent2);
+                    member_index++;
                     subcounter++;
-
                 }
                 counter++;
             }
@@ -83,6 +85,8 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
         
         current_gen++;
     }
+
+    printf("Population Evolved!");
 
     //WORK ON FREEING MEMORY!!!!!!!!!!!
 }
