@@ -19,9 +19,13 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
     gen_list[0].generation_id = 0;
     gen_list[0].member_count = 2;
 
+    generations[0] = malloc(gen_list[0].member_count * sizeof(individual**)); //FREEEEEEEEEEEEEEEEEEEEEEEEE!!!
+    generations[0][0] = origin1;
+    generations[0][1] = origin2;
 
     while (current_gen != MAX_GEN)
     {   
+
         if (current_gen != 0)
         {
             gen_list[current_gen].generation_id = current_gen;
@@ -35,6 +39,7 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
 
         if (current_gen < SIBLINGS_PARAM)
         {
+            printf("GEN: %i \n", current_gen);
             int couple_count = get_random((int) (gen_list[current_gen-1].member_count / 2) + 1);
             printf("couple_count: %i\n",couple_count);
             int childcount_list[couple_count];
@@ -50,7 +55,28 @@ void initSim(int mg, int mc, individual* origin1, individual* origin2)
             generations[current_gen] = malloc(gen_list[current_gen].member_count * sizeof(individual**)); //FREE!!!!!!!!!!!!!!!!!!
             while(counter != couple_count)
             {
-                continue;
+                //[OK] Defines a couple
+                int parent1_id, parent2_id;
+                parent1_id = get_random((int) gen_list[current_gen - 1].member_count);
+                do {
+                    parent2_id = get_random((int) gen_list[current_gen - 1].member_count);
+                }while(parent2_id == parent1_id);
+                printf("PARENT1: %i | PARENT2: %i\n", parent1_id, parent2_id);
+
+               individual* parent1 = generations[current_gen - 1][parent1_id];
+               individual* parent2 = generations[current_gen - 1][parent2_id];
+
+               printf("PARENT1 BLOOD: %c%c | PARENT2 BLOOD: %c%c\n", parent1->bloodType[0], parent1->bloodType[1], parent2->bloodType[0], parent2->bloodType[1]);
+
+                int subcounter = 0;
+                while (subcounter != childcount_list[counter])
+                {
+                    //Populate with childs
+
+                    subcounter++;
+
+                }
+                counter++;
             }
 
         }
